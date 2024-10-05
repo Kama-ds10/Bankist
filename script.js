@@ -71,7 +71,7 @@ const displayMovements = function (movements) {
       i + 1
     } ${type}</div>
           
-          <div class="movements__value">${mov}</div>`;
+          <div class="movements__value">${mov}€</div>`;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
@@ -97,9 +97,39 @@ console.log(accounts);
 
 const calcDisplayBalance = function (movements) {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance} EUR`;
+  labelBalance.textContent = `${balance}€`;
 };
 calcDisplayBalance(account1.movements);
+
+// calculation of summary of amounts that comes inside the account and also out of the account then also the interest rates
+
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+
+  labelSumIn.textContent = `${incomes}€`;
+
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(desposit => (desposit * 1.2) / 100)
+    .filter((int, i, arr) => {
+      console.log(arr);
+      return int >= 1;
+    })
+    .reduce((acc, int) => acc + int, 0);
+
+  labelSumInterest.textContent = `${interest}€`;
+};
+
+calcDisplaySummary(account1.movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -267,3 +297,15 @@ const max = movements.reduce((acc, mov) => {
 }, movements[0]);
 console.log(max);
 */
+
+// converting to usd(an other curency)
+
+const euroToUsd = 1.1;
+
+// pipeline
+const totalDespositsUSD = movements
+  .filter(mov => mov > 0)
+  .map(mov => mov * euroToUsd)
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(totalDespositsUSD);
