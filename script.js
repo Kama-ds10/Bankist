@@ -92,6 +92,14 @@ const createUsernames = function (accs) {
 };
 createUsernames(accounts);
 console.log(accounts);
+
+// calculating application balance based on the array
+
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+calcDisplayBalance(account1.movements);
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -102,7 +110,7 @@ console.log(accounts);
 //   ['GBP', 'Pound sterling'],
 // ]);
 
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 /*
@@ -217,7 +225,7 @@ const movementsDescriptions = movements.map(
 
 console.log(movementsDescriptions);
 
-
+// const filter
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 const desposits = movements.filter(function (mov) {
@@ -236,4 +244,26 @@ const withdrawals = movements.filter(function (mov) {
 });
 console.log(movements);
 console.log(withdrawals);
+
+// reduced method
+
+// accumulator is like a snow ball
+
+const balance = movements.reduce(function (acc, cur, i, arr) {
+  console.log(`iteration ${i}: ${acc}`);
+  return acc + cur;
+}, 0);
+console.log(movements);
+console.log(balance);
+
+let balance2 = 0;
+for (const mov of movements) balance2 += mov;
+console.log(balance2);
+
+// Maximum value of movemement array
+const max = movements.reduce((acc, mov) => {
+  if (acc > mov) return acc;
+  else return mov;
+}, movements[0]);
+console.log(max);
 */
